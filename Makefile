@@ -1,6 +1,5 @@
 CARGO = cargo
 CARGO_WATCH = cargo watch
-APP_NAME = bmi_calculator
 
 run:
 	$(CARGO) run
