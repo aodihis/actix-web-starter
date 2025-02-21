@@ -2,6 +2,7 @@ use actix_web::{web, HttpResponse};
 use validator::Validate;
 use crate::errors::api_error::ApiError;
 use crate::models::example::{ExampleRequest, ExampleResponse};
+use crate::models::generic::{StatusResponse, SuccessResponse};
 
 pub async fn example_handler(data: web::Json<ExampleRequest>) -> Result<HttpResponse, ApiError> {
     if let Err(err) = data.validate() {
@@ -9,8 +10,12 @@ pub async fn example_handler(data: web::Json<ExampleRequest>) -> Result<HttpResp
     }
 
     Ok(HttpResponse::Ok().json(
-        ExampleResponse {
-            id: data.id.clone(),
+        SuccessResponse {
+            status: StatusResponse::Success,
+            data: ExampleResponse {
+                id: data.id.clone(),
+            },
         }
+
     ))
 }

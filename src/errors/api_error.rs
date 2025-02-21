@@ -2,7 +2,6 @@ use crate::models::generic::{ErrorResponse, StatusResponse};
 use actix_web::http::StatusCode;
 use actix_web::{HttpResponse, ResponseError};
 use derive_more::Display;
-use std::fmt::Display;
 
 #[derive(Debug, Display)]
 pub enum ApiError {

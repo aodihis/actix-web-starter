@@ -1,3 +1,11 @@
+//! # Actix Web Starter
+//!
+//! ## Usage
+//!
+//! ```bash
+//! cargo run
+//! ```
+
 mod config;
 mod handlers;
 mod routes;
