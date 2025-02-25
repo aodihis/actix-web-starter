@@ -15,7 +15,8 @@ mod models;
 use actix_web::{middleware, web, App, HttpServer};
 use dotenv::dotenv;
 use log::info;
-use crate::config::Config;
+use crate::config::config::Config;
+use crate::config::database::get_pool;
 use crate::handlers::error_handler::{handle_json_error, not_found};
 use crate::routes::example_routes;
 
@@ -25,6 +26,8 @@ async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let config = Config::load().expect("Failed to load configuration");
+    let pool = get_pool(&config).await.expect("Failed to connect to database");
+
 
     info!(
         "Listening for incoming connections on {}:{}",
@@ -32,6 +35,7 @@ async fn main() -> std::io::Result<()> {
     );
     HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(pool.clone()))
             .app_data(web::JsonConfig::default().error_handler(handle_json_error))
             .wrap(middleware::Compress::default())
             .wrap(middleware::NormalizePath::trim())
